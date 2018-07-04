@@ -28,3 +28,7 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-web')
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }
+// 显示当前项目下所有用于 compile 的 jar.
+task listJars(description: '输出当前项目全部jar包') << {
+    configurations.compile.each { File file -> println file.name }
+}

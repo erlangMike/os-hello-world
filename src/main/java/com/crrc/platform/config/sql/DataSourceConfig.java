@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Primary;
 
 import javax.sql.DataSource;
 
+/**
+ * @author mikejn
+ */
 @Configuration
 public class DataSourceConfig {
     @Bean(name = "coreDataSource")

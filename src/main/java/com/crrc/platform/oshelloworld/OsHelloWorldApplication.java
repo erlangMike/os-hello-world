@@ -5,6 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+
+/**
+ * @author mikejn
+ */
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.crrc.platform.hello.*"},basePackageClasses = {DataSourceConfig.class})
 public class OsHelloWorldApplication {

@@ -3,7 +3,8 @@ server:
 spring:
   datasource:
     core:
-      url: jdbc:mysql://192.168.1.248:30001/crrc-hello
+      url: jdbc:mysql://192.168.1.248:30001/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false
       username: root
       password: 123456
+      driverClass: com.mysql.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource

@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: os-hello-world
+spec:
+  selector:
+    app: os-hello-world
+  ports:
+  - port: 8080
+    nodePort: 30002
+  type: NodePort

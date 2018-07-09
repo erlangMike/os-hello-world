@@ -1,0 +1,9 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    core:
+      url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/crrc-hello
+      username: ${MYSQL_DB_USER}
+      password: ${MYSQL_DB_PASSWORD}
+    type: com.zaxxer.hikari.HikariDataSource

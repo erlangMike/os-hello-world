@@ -1,6 +1,6 @@
 package com.crrc.platform.hello.controller;
 
-import com.crrc.platform.hello.vo.Greeting;
+import com.crrc.platform.hello.dto.Greeting;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: os-hello-world
+  labels:
+    app: os-hello-world
+spec:
+  containers:
+  - name: os-hello-world
+    image: jiangnanjava/os-hello-world
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always

@@ -1,4 +1,4 @@
-package com.crrc.platform.hello.vo;
+package com.crrc.platform.hello.dto;
 
 public class Greeting {
     private final long id;

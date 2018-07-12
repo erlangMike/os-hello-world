@@ -1,0 +1,12 @@
+FROM openjdk:8-jdk-alpine3.7
+MAINTAINER jn  jiangnan.java@hotmail.com
+ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai
+RUN apk update && apk add curl bash tree tzdata \
+    && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo -ne "Alpine Linux 3.4 image. (`uname -rsv`)\n" >> /root/.built
+RUN mkdir /usr/myapp
+COPY ms-provider.jar /usr/myapp
+WORKDIR /usr/myapp
+CMD ["java","-jar","ms-ekserver.jar"]
+EXPOSE 8081/tcp
+EXPOSE 8083/tcp

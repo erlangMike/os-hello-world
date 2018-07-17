@@ -6,5 +6,11 @@ metadata:
 data:
   sql_password: "123456"
   node_port: "30001"
-  my.conf: |
-    lower_case_table_names=1
+#  my.conf: |
+#    lower_case_table_names=1e
+  MYSQL_DB_HOST: "192.168.1.247"
+  MYSQL_DB_PORT: "30001"
+  MYSQL_DB_PASSWORD: "123456"
+  MYSQL_DB_USER: "root"
+  DPL_MODE: "prod"
+  LOG_LEVEL: "debug"

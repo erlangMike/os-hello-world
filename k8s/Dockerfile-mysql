@@ -1,2 +1,3 @@
 FROM mysql
+MAINTAINER jn  jiangnan.java@hotmail.com
 COPY my.cnf /etc/mysql/my.cnf

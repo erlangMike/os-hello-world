@@ -28,11 +28,17 @@ public class GreetingController {
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value="name", defaultValue="World") String name) {
-
         List<JsSysUser>  userList=userMapper.getAll();
-
         userList.stream().forEach(b->{logger.debug("userList--->"+b.getUserCode());});
         return new Greeting(counter.incrementAndGet(),
                             String.format(TEMPLATE, name));
+    }
+
+    @RequestMapping("/users")
+    public List<JsSysUser>  users() {
+        List<JsSysUser>  userList=userMapper.getAll();
+        logger.debug("user list number of --->"+userList.size());
+        userList.stream().forEach(b->{logger.debug("userList--->"+b.getUserCode());});
+        return userList;
     }
 }

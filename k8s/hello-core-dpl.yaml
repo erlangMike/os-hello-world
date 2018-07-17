@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-core
+  labels:
+    app: hello-core
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: hello-core
+      labels:
+        app: hello-core
+    spec:
+      containers:
+      - name: hello-core
+        image: jiangnanjava/hello:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: MYSQL_DB_HOST
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: MYSQL_DB_HOST
+          - name: MYSQL_DB_PORT
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: MYSQL_DB_PORT
+          - name: MYSQL_DB_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: MYSQL_DB_PASSWORD
+          - name: MYSQL_DB_USER
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: MYSQL_DB_USER
+          - name: DPL_MODE
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: DPL_MODE
+          - name: LOG_LEVEL
+            valueFrom:
+              configMapKeyRef:
+                name: hello-cfg
+                key: LOG_LEVEL
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: hello-core

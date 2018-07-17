@@ -5,8 +5,7 @@ RUN apk update && apk add curl bash tree tzdata \
     && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo -ne "Alpine Linux 3.4 image. (`uname -rsv`)\n" >> /root/.built
 RUN mkdir /usr/myapp
-COPY ms-provider.jar /usr/myapp
+COPY os-hello-world.jar /usr/myapp
 WORKDIR /usr/myapp
-CMD ["java","-jar","ms-ekserver.jar"]
-EXPOSE 8081/tcp
-EXPOSE 8083/tcp
+CMD ["java","-jar","os-hello-world.jar"]
+EXPOSE 8080/tcp

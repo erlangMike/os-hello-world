@@ -6,5 +6,8 @@ spring:
       url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false
       username: ${MYSQL_DB_USER}
       password: ${MYSQL_DB_PASSWORD}
-      driverClass: com.mysql.jdbc.Driver
+      driverClass: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
+logging:
+  level:
+    root: ${LOG_LEVEL}

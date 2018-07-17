@@ -1,5 +1,6 @@
 package com.crrc.platform.oshelloworld;
 
+import com.crrc.platform.config.cors.CorsConfigAll;
 import com.crrc.platform.config.sql.DataSourceConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -11,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author mikejn
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"com.crrc.platform.hello.*"},basePackageClasses = {DataSourceConfig.class})
+@ComponentScan(basePackages = {"com.crrc.platform.hello.*"},basePackageClasses = {DataSourceConfig.class, CorsConfigAll.class})
 public class OsHelloWorldApplication {
 
     public static void main(String[] args) {

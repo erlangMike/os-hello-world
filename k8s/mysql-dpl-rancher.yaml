@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql-dpl
+  labels:
+    app: mysql-dpl
+  namespace: demo-namespace
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: mysql
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: jiangnanjava/mysql:latest
+        imagePullPolicy: IfNotPresent
+#        args:
+#          - character-set-server=utf8mb4
+#          - collation-server=utf8mb4_unicode_ci
+#          - lower_case_table_names=1
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              configMapKeyRef:
+                name: mysqlmap
+                key: MYSQL_ROOT_PASSWORD
+                optional: true
+        ports:
+          - containerPort: 3306
+            name: mysql
+        volumeMounts:
+          - mountPath: /var/lib/mysql
+            name: mysql-ps
+      restartPolicy: Always
+      volumes:
+        - name: mysql-ps
+          persistentVolumeClaim:
+            claimName: mysql-pvc
+  selector:
+    matchLabels:
+      app: mysql

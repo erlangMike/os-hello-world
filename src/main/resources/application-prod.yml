@@ -3,11 +3,11 @@ server:
 spring:
   datasource:
     core:
-      url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false
-      username: ${MYSQL_DB_USER}
-      password: ${MYSQL_DB_PASSWORD}
+      url: jdbc:mysql://114.116.71.214:30003/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false
+      username: root
+      password: 123456
       driverClass: com.mysql.cj.jdbc.Driver
     type: com.zaxxer.hikari.HikariDataSource
 logging:
   level:
-    root: ${LOG_LEVEL}
+    root: info

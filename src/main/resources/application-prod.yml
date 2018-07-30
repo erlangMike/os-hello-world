@@ -1,5 +1,14 @@
 server:
-  port: 8080
+  port: 8443
+  ssl:
+    enabled: true
+    key-store:
+  undertow:
+    io-threads: 2
+    worker-threads: 20
+  http2:
+    enabled: true
+  use-forward-headers: true
 spring:
   datasource:
     core:

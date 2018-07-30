@@ -1,5 +1,5 @@
 server:
-  port: ${BOOT_CONTAINER_PORT}
+  port: 8080
 spring:
   datasource:
     core:

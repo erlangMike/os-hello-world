@@ -1,14 +1,23 @@
 server:
-  port: 8443
+  port: 443
   ssl:
     enabled: true
-    key-store:
+    key-store: classpath:undertow_os_hello.p12
+    key-store-type: PKCS12
+    key-alias: undertow-os-hello
+    key-store-password: 1qaz@WSX
+    client-auth: want
   undertow:
-    io-threads: 2
-    worker-threads: 20
+    io-threads: 4
+    worker-threads: 40
+    buffer-size: 1024
+  use-forward-headers: true
   http2:
     enabled: true
-  use-forward-headers: true
+customer:
+  server:
+    http:
+      enable: false
 spring:
   datasource:
     core:
@@ -19,4 +28,4 @@ spring:
     type: com.zaxxer.hikari.HikariDataSource
 logging:
   level:
-    root: info
+    root: debug

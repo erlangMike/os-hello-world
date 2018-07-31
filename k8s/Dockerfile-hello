@@ -9,3 +9,4 @@ COPY os-hello-world.jar /usr/myapp
 WORKDIR /usr/myapp
 CMD ["java","-jar","os-hello-world.jar"]
 EXPOSE 8080/tcp
+EXPOSE 443/tcp

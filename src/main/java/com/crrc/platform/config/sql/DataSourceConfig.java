@@ -21,7 +21,6 @@ import javax.sql.DataSource;
  * @author mikejn
  */
 @Configuration
-@Component
 public class DataSourceConfig {
 
     @Value("${spring.datasource.core.url}")

@@ -1,5 +1,23 @@
 server:
-  port: 8080
+  port: 443
+  ssl:
+    enabled: true
+    key-store: ${KEY_STORE_PATH}
+    key-store-type: ${KEY_STORE_TYPE}
+    key-alias: ${KEY_ALIAS}
+    key-store-password: ${KEY_STORE_PASSWORD}
+    client-auth: ${CLIENT_AUTH_TYPE}
+  undertow:
+    io-threads: ${IO_THREADS_NUM}
+    worker-threads: ${WORKER_THREADS_NUM}
+    buffer-size: 1024
+  use-forward-headers: true
+  http2:
+    enabled: true
+customer:
+  server:
+    http:
+      enable: ${SERVER_HTTP_ENABLE}
 spring:
   datasource:
     core:

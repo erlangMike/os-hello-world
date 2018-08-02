@@ -36,6 +36,12 @@ public class DataSourceConfig {
     @Value("${spring.datasource.core.driverClass}")
     private String driverClass;
 
+    @Value("${spring.datasource.core.minIdleSize}")
+    private int minIdleSize;
+
+    @Value("${spring.datasource.core.maxPoolSize}")
+    private int maxPoolSize;
+
     @Bean(name = "coreDataSource")
     @Qualifier("coreDataSource")
     @Primary
@@ -46,8 +52,8 @@ public class DataSourceConfig {
         config.setDriverClassName(driverClass);
         config.setUsername(username);
         config.setPassword(password);
-        config.setMaximumPoolSize(10);
-        config.setMinimumIdle(5);
+        config.setMaximumPoolSize(maxPoolSize);
+        config.setMinimumIdle(minIdleSize);
         config.setConnectionTestQuery("SELECT 1");
 
         HikariDataSource ds = new HikariDataSource(config);

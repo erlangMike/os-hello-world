@@ -1,7 +1,6 @@
 .gradle
 /build/
 gradle/wrapper/
-
 ### STS ###
 .apt_generated
 .classpath

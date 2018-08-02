@@ -1,0 +1,10 @@
+FROM openjdk:10-jdk
+MAINTAINER jn  jiangnan.java@hotmail.com
+ENV JAVA_OPTS -Duser.timezone=Asia/Shanghai
+RUN cp -r -f /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+RUN mkdir /usr/myapp
+COPY os-hello-world.jar /usr/myapp
+WORKDIR /usr/myapp
+CMD ["java","-jar","os-hello-world.jar"]
+EXPOSE 8080/tcp
+EXPOSE 443/tcp

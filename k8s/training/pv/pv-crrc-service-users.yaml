@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  labels:
+    app: crrc-service-users-db
+  name: crrc-service-users-db
+  namespace: dev-namespace
+  annotations:
+    uid: "jn"
+    buildinfo: "仅供 crrc-service-users beta dev使用"
+spec:
+  nfs:
+    path: /usr/local/soft/nas/crrc_service_users_db
+    server: 114.116.93.22
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce

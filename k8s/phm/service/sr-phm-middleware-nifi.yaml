@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sv-phm-middleware-nifi
+  namespace: phm-namespace
+spec:
+  selector:
+    app: dpl-phm-middleware-nifi
+  ports:
+# redis-slave端口
+  - port: 8080
+    nodePort: 30308
+    name: redis-phm-nifi-8080-30308
+  type: NodePort

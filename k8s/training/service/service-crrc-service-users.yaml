@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: crrc-service-users
+  namespace: dev-namespace
+spec:
+  selector:
+    app: crrc-service-users
+  ports:
+  - port: 3306
+    nodePort: 30011
+    name: mysql3306-30011
+    protocol: TCP
+  type: NodePort

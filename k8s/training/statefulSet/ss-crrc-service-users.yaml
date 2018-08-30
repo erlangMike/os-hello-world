@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ss-crrc-service-users
+  labels:
+    app: ss-crrc-service-users
+  namespace: dev-namespace
+spec:
+  ports:
+  - port: 3306
+    name: mysql
+  - port: 8080
+    name: webapp
+  clusterIP: None
+  selector:
+    app: ss-crrc-service-users
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ss-crrc-service-users
+  labels:
+    app: ss-crrc-service-users
+    version: beta
+    env: dev
+    arc: microservie
+    qa: daily
+  annotations:
+    uid: "jn"
+    buildinfo: "ss测试有状态容器编排"
+    contract: "ss联系人 姜楠：15542323694"
+    realease: "版本为测试内容，不可使用"
+  namespace: dev-namespace
+spec:
+  selector:
+#    matchExpressions:
+#      - key: app
+#        operator: IN
+#        values:
+#          - [ss-crrc-service-users]
+    matchLabels:
+      app: ss-crrc-service-users
+  serviceName: ss-crrc-service-users
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: ss-crrc-service-users
+    spec:
+      containers:
+        - name: mysql-cs-users
+          image: 49.4.1.167/crrc/mysql-cs-users:latest
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - mountPath:  /var/lib/mysql
+              name:  userdb
+      restartPolicy: Always
+      volumes:
+        - name: userdb
+          persistentVolumeClaim:
+            claimName: crrc-service-users-db
+#  volumeClaimTemplates:
+#    - metadata:
+#        name: userdb
+#        namespace: dev-namespace
+#      spec:
+#        accessModes: [ "ReadWriteOnce" ]
+#        resources:
+#          requests:
+#            storage: 1Gi
+#        selector:
+#          matchLabels:
+#            app: crrc-service-users-db

@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-phm-middleware-influxdbdata
+  labels:
+    app: pv-phm-middleware-influxdbdata
+    env: dev
+  namespace: phm-namespace
+  annotations:
+    uid: "jn"
+    buildinfo: "仅供influxdb使用"
+spec:
+  nfs:
+    path: /usr/local/soft/nas/phm/influxdbdata
+    server: 114.116.93.22
+  capacity:
+    storage: 5Gi
+  accessModes:
+  - ReadWriteOnce

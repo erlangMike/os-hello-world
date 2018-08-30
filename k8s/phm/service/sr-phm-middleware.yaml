@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sv-phm-middleware
+  namespace: phm-namespace
+spec:
+  selector:
+    app: dpl-phm-middleware
+  ports:
+# postgresql端口
+  - port: 5432
+    nodePort: 30301
+    name: psql5432-30301
+# influxdb端口
+
+  #HTTP API port
+  - port: 8086
+    nodePort: 30302
+    name: influxdb8086-30302
+  # Administrator interface port, if it is enabled
+  - port: 8083
+    nodePort: 30303
+    name: influxdb8083-30303
+  # Graphite support, if it is enabled
+  - port: 2003
+    nodePort: 30304
+    name: influxdb2003-30304
+  type: NodePort

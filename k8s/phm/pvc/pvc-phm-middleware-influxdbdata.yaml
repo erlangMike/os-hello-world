@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pvc-phm-middleware-influxdbdata
+  namespace: phm-namespace
+  annotations:
+    uid: "jn"
+    buildinfo: "仅供influxdbdata db使用"
+spec:
+  resources:
+    requests:
+      storage: 5Gi
+  accessModes:
+  - ReadWriteOnce

@@ -1,0 +1,189 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-crrc-service-users
+  labels:
+    app: dpl-crrc-service-users
+    version: beta
+    env: dev
+    arc: microservie
+    qa: daily
+  annotations:
+    uid: "jn"
+    buildinfo: "dpl测试rs使用"
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为测试内容，不可使用"
+  namespace: dev-namespace
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: dpl-crrc-service-users
+      labels:
+        app: dpl-crrc-service-users
+        version: beta
+        env: dev
+        arc: microservie
+        qa: daily
+      annotations:
+        uid: "jn"
+        buildinfo: "基本服务验证单pod单container多rs"
+        contract: "服务模块联系人 姜楠：15542323694"
+        realease: "版本为测试内容，不可使用"
+      namespace: dev-namespace
+    spec:
+      volumes:
+      - name: workdir
+        emptyDir: {}
+      initContainers:
+      - name: check-init
+        image: busybox
+        command:
+        - wget
+        - "-O"
+        - "/work-dir/index.html"
+        - http://kubernetes.io
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
+#      nodeSelector:
+#        crrc.com/role: dev
+      containers:
+      - name: dpl-crrc-service-users
+        image: 49.4.1.167/crrc/crrc-base-hello-ojdk10:latest
+        imagePullPolicy: IfNotPresent
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+          periodSeconds: 2
+        readinessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 60
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 2
+          periodSeconds: 2
+        ports:
+        - name: http8080
+          protocol: TCP
+          containerPort: 8080
+        - name: https443
+          protocol: TCP
+          containerPort: 443
+        volumeMounts:
+        - name: workdir
+          mountPath: "/work-dir"
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_PASSWORD
+              optional: true
+        - name: CLIENT_AUTH_TYPE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: CLIENT_AUTH_TYPE
+              optional: true
+        - name: DPL_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: DPL_MODE
+              optional: true
+        - name: DS_CORE_MAX_POOL_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: DS_CORE_MAX_POOL_SIZE
+              optional: true
+        - name: DS_CORE_MIN_IDLE_SIZE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: DS_CORE_MIN_IDLE_SIZE
+              optional: true
+        - name: IO_THREADS_NUM
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: IO_THREADS_NUM
+              optional: true
+        - name: KEY_ALIAS
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: KEY_ALIAS
+              optional: true
+        - name: KEY_STORE_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: KEY_STORE_PASSWORD
+              optional: true
+        - name: KEY_STORE_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: KEY_STORE_PATH
+              optional: true
+        - name: KEY_STORE_TYPE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: KEY_STORE_TYPE
+              optional: true
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: LOG_LEVEL
+              optional: true
+        - name: MYSQL_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_HOST
+              optional: true
+        - name: MYSQL_DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_PASSWORD
+              optional: true
+        - name: MYSQL_DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_PORT
+              optional: true
+        - name: MYSQL_DB_USER
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_USER
+              optional: true
+        - name: SERVER_HTTP_ENABLE
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: SERVER_HTTP_ENABLE
+              optional: true
+        - name: WORKER_THREADS_NUM
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: WORKER_THREADS_NUM
+              optional: true
+      restartPolicy: Always
+      imagePullSecrets:
+        - name: register-167
+  selector:
+    matchLabels:
+      app: dpl-crrc-service-users

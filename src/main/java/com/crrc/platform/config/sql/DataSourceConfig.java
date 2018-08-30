@@ -55,7 +55,7 @@ public class DataSourceConfig {
         config.setMaximumPoolSize(maxPoolSize);
         config.setMinimumIdle(minIdleSize);
         config.setConnectionTestQuery("SELECT 1");
-
+//        config.setInitializationFailTimeout(60000);
         HikariDataSource ds = new HikariDataSource(config);
 /*
         ds.setJdbcUrl(url);

@@ -1,0 +1,10 @@
+FROM apache/nifi:1.3.0
+MAINTAINER jn  jiangnan.java@hotmail.com
+COPY nifi-analysisformat-nar-1.0-SNAPSHOT.nar /opt/nifi/nifi-1.3.0/lib/nifi-analysisformat-nar-1.0-SNAPSHOT.nar
+COPY nifi-analysisformat-nar-1.1-SNAPSHOT.nar /opt/nifi/nifi-1.3.0/lib/nifi-analysisformat-nar-1.1-SNAPSHOT.nar
+COPY nifi-analysisformat-nar-1.2-SNAPSHOT.nar /opt/nifi/nifi-1.3.0/lib/nifi-analysisformat-nar-1.2-SNAPSHOT.nar
+COPY nifi-change-nar-1.0-SNAPSHOT.nar /opt/nifi/nifi-1.3.0/lib/nifi-change-nar-1.0-SNAPSHOT.nar
+COPY nifi-standard-nar-1.3.0.nar /opt/nifi/nifi-1.3.0/lib/nifi-standard-nar-1.3.0.nar
+COPY postgresql-9.4.1212.jar /opt/nifi/nifi-1.3.0/lib/postgresql-9.4.1212.jar
+COPY nifi-redis_format-nar-1.nar /opt/nifi/nifi-1.3.0/lib/nifi-redis_format-nar-1.nar
+COPY nifi-influx-nar-1.nar /opt/nifi/nifi-1.3.0/lib/nifi-influx-nar-1.nar

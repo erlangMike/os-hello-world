@@ -16,6 +16,26 @@ metadata:
   namespace: dev-namespace
 spec:
   containers:
+#  - name: crrc-service-users-db
+#    image: 49.4.1.167/crrc/mysql-cs-users:latest
+#    imagePullPolicy: IfNotPresent
+#    ports:
+#    - name: mysql3306
+#      protocol: TCP
+#      containerPort: 3306
+#    env:
+#    - name: MYSQL_ROOT_PASSWORD
+#      valueFrom:
+#        configMapKeyRef:
+#          name: crrc-service-users-dev
+#          key: MYSQL_DB_PASSWORD
+#          optional: true
+#    - name: MYSQL_DATABASE
+#      value: "crrc-core"
+#    - name: MYSQL_USER
+#      value: "crrc-core"
+#    - name: MYSQL_PASSWORD
+#      value: "123456"
   - name: crrc-service-users
     image: 49.4.1.167/crrc/crrc-base-hello-ojdk10:latest
     imagePullPolicy: IfNotPresent
@@ -129,18 +149,4 @@ spec:
           name: crrc-service-users-dev
           key: WORKER_THREADS_NUM
           optional: true
-  - name: crrc-service-users-db
-    image: mysql:latest
-    imagePullPolicy: IfNotPresent
-    ports:
-      - name: mysql3306
-        protocol: TCP
-        containerPort: 3306
-    env:
-      - name: MYSQL_ROOT_PASSWORD
-        valueFrom:
-          configMapKeyRef:
-            name: crrc-service-users-dev
-            key: MYSQL_DB_PASSWORD
-            optional: true
   restartPolicy: Always

@@ -21,7 +21,7 @@ customer:
 spring:
   datasource:
     core:
-      url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false
+      url: jdbc:mysql://${MYSQL_DB_HOST}:${MYSQL_DB_PORT}/crrc-core?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
       username: ${MYSQL_DB_USER}
       password: ${MYSQL_DB_PASSWORD}
       driverClass: com.mysql.cj.jdbc.Driver

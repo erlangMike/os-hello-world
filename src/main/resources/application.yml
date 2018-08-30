@@ -1,3 +1,4 @@
 spring:
   profiles:
-    active: ${DPL_MODE}
+#    active: ${DPL_MODE}
+    active: prod

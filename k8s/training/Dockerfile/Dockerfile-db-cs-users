@@ -1,0 +1,4 @@
+FROM mysql:latest
+MAINTAINER jn  jiangnan.java@hotmail.com
+COPY my.cnf /etc/mysql/my.cnf
+COPY crrc-core.sql /docker-entrypoint-initdb.d

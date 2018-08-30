@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-crrc-middleware-mysql
+  labels:
+    app: dpl-crrc-middleware-mysql
+    version: beta
+    env: dev
+    arc: middleware
+    qa: daily
+  annotations:
+    uid: "jn"
+    buildinfo: "dpl测试mysql使用"
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为测试内容，不可使用"
+  namespace: dev-namespace
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: dpl-crrc-middleware-mysql
+      labels:
+        app: dpl-crrc-middleware-mysql
+        version: beta
+        env: dev
+        arc: middleware
+        qa: daily
+      annotations:
+        uid: "jn"
+        buildinfo: "验证mysql容器通过configMap进行配置优化"
+        contract: "中间件模块联系人 姜楠：15542323694"
+        realease: "版本为测试内容，不可使用"
+      namespace: dev-namespace
+    spec:
+      containers:
+      - name: dpl-crrc-middleware-mysql
+        image: mysql:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: tcp3306
+          protocol: TCP
+          containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: crrc-service-users-dev
+              key: MYSQL_DB_PASSWORD
+              optional: true
+        volumeMounts:
+          - mountPath: /etc/mysql/my.cnf
+            subPath: my.cnf
+            name: my-cnfxml
+      volumes:
+        - name: my-cnfxml
+          configMap:
+            name:
+              cf-mysql-cnf
+            items:
+              - key: my-cnfxml
+                path: my.cnf
+      restartPolicy: Always
+
+  selector:
+    matchLabels:
+      app: dpl-crrc-middleware-mysql

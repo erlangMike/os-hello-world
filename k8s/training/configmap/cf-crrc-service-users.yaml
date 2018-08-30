@@ -23,3 +23,24 @@ data:
   MYSQL_DB_USER: "root"
   SERVER_HTTP_ENABLE: "true"
   WORKER_THREADS_NUM: "40"
+  my.cnf: |
+  [mysqld]
+  pid-file        = /var/run/mysqld/mysqld.pid
+  socket          = /var/run/mysqld/mysqld.sock
+  datadir         = /var/lib/mysql
+  secure-file-priv= NULL
+  # Disabling symbolic-links is recommended to prevent assorted security risks
+  symbolic-links=0
+  lower_case_table_names=1
+  max_connections         = 3000
+  connect_timeout         = 5
+  wait_timeout            = 600
+  max_allowed_packet      = 32M
+  thread_cache_size       = 128
+  sort_buffer_size        = 4M
+  bulk_insert_buffer_size = 16M
+  tmp_table_size          = 32M
+  max_heap_table_size     = 32M
+
+  !includedir /etc/mysql/conf.d/
+

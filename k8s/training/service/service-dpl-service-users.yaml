@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: dpl-service-users
+  namespace: dev-namespace
+spec:
+  selector:
+    app: dpl-crrc-service-users
+  ports:
+  - port: 443
+    nodePort: 30009
+    name: dplweb443
+    protocol: TCP
+  type: NodePort

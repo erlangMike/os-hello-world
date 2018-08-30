@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-phm-middleware-redis-slave
+  labels:
+    app: dpl-phm-middleware-redis-slave
+    version: v1
+    env: dev
+    arc: middleware
+  annotations:
+    uid: "jn"
+    buildinfo: "phm项目开发使用的集成环境-生产环境master的临时slave"
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为phm开发环境，不可乱动"
+  namespace: phm-namespace
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: dpl-phm-middleware-redis-slave
+      labels:
+        app: dpl-phm-middleware-redis-slave
+    spec:
+      containers:
+      - name: phm-middleware-redis-slave
+        image: bitnami/redis:latest
+        imagePullPolicy: IfNotPresent
+        env:
+          - name: REDIS_REPLICATION_MODE
+            value: "slave"
+          - name: REDIS_MASTER_HOST
+            value: "58.213.23.244"
+          - name: REDIS_MASTER_PORT_NUMBER
+            value: "8003"
+          - name: ALLOW_EMPTY_PASSWORD
+            value: "yes"
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: dpl-phm-middleware-redis-slave

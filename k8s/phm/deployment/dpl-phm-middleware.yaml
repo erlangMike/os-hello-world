@@ -1,0 +1,80 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-phm-middleware
+  labels:
+    app: dpl-phm-middleware
+    version: v1
+    env: dev
+    arc: middleware
+  annotations:
+    uid: "jn"
+    buildinfo: "phm项目开发使用的集成环境 包括 influxdb postgresql redis "
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为phm开发环境，不可乱动"
+  namespace: phm-namespace
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: dpl-phm-middleware
+      labels:
+        app: dpl-phm-middleware
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: "crrc.com/role"
+                operator: "In"
+                values: ["dev"]
+      containers:
+      - name: phm-middleware-postgres
+        image: postgres:9.6-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: POSTGRES_PASSWORD
+          value: 1qaz@WSX
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: pgdata
+        - mountPath: /initdbs
+          name: initdbs
+      - name: phm-middleware-influxdb
+        image: influxdb:1.6-alpine
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: INFLUXDB_ADMIN_ENABLED
+          value: "true"
+        - name: INFLUXDB_GRAPHITE_ENABLED
+          value: "true"
+        - name: INFLUXDB_DB
+          value: phm
+        - name: INFLUXDB_ADMIN_USER
+          value: admin
+        - name: INFLUXDB_ADMIN_PASSWORD
+          value: 1qaz@WSX
+        - name: INFLUXDB_USER
+          value: admin
+        - name: INFLUXDB_USER_PASSWORD
+          value: 1qaz@WSX
+        volumeMounts:
+        - mountPath: /var/lib/influxdb
+          name: influxdbdata
+        - mountPath: /initdbs
+          name: initdbs
+      restartPolicy: Always
+      volumes:
+      - name: pgdata
+        persistentVolumeClaim:
+          claimName: pvc-phm-middleware-pgdata
+      - name: influxdbdata
+        persistentVolumeClaim:
+          claimName: pvc-phm-middleware-influxdbdata
+      - name: initdbs
+        hostPath:
+          path: /usr/local/soft/initdbs
+  selector:
+    matchLabels:
+      app: dpl-phm-middleware

@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-crrc-test-affinity
+  labels:
+    app: dpl-crrc-test-affinity
+    version: beta
+    env: dev
+    arc: microservie
+    qa: daily
+  annotations:
+    uid: "jn"
+    buildinfo: "dpl测试亲和性使用"
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为测试内容，不可使用"
+  namespace: dev-namespace
+spec:
+  replicas: 3
+  template:
+    metadata:
+      name: dpl-crrc-test-affinity
+      labels:
+        app: dpl-crrc-test-affinity
+        version: beta
+        env: dev
+        arc: microservie
+        qa: daily
+      annotations:
+        uid: "jn"
+        buildinfo: "node亲和性测试"
+        contract: "服务模块联系人 姜楠：15542323694"
+        realease: "版本为测试内容，不可使用"
+      namespace: dev-namespace
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+#              hostPort: 30009
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - topologyKey: "crrc.com/region"
+              labelSelector:
+                matchExpressions:
+                  - key: "app"
+                    operator: "In"
+                    values: ["mysql"]
+              namespaces:
+                - demo-namespace
+#        nodeAffinity:
+#          preferredDuringSchedulingIgnoredDuringExecution:
+#            - preference:
+#                matchExpressions:
+#                  - key: "crrc.com/role"
+#                    operator: "In"
+#                    values: ["dev"]
+#              weight: 60
+#          requiredDuringSchedulingRequiredDuringExecution:
+#            nodeSelectorTerms:
+#              - matchExpressions:
+#                  - key: "crrc.com/role"
+#                    operator: "In"
+#                    values: ["test"]
+
+
+
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#            nodeSelectorTerms:
+##              - matchExpressions:
+##                  - key: "kubernetes.io/hostname"
+##                    operator: "In"
+##                    values: ["1","2"]
+#              - matchExpressions:
+#                  - key: "crrc.com/role"
+#                    operator: "In"
+#                    values: ["test"]
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: dpl-crrc-test-affinity

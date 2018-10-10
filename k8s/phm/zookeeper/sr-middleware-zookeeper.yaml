@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sv-plt-zookeeper
+spec:
+  selector:
+    app: sv-plt-zookeeper
+  ports:
+  - port: 2181
+    nodePort: 30181
+    name: zookeeper-2181-30181
+  - port: 2182
+    nodePort: 30182
+    name: zookeeper-2182-30182
+  - port: 2183
+    nodePort: 30183
+    name: zookeeper-2183-30183
+
+  - port: 2881
+    nodePort: 30881
+    name: zookeeper-2881-30881
+  - port: 2882
+    nodePort: 30882
+    name: zookeeper-2882-30882
+  - port: 2883
+    nodePort: 30883
+    name: zookeeper-2883-30883
+
+  - port: 3881
+    nodePort: 31881
+    name: zookeeper-3881-31881
+  - port: 3882
+    nodePort: 31882
+    name: zookeeper-3882-31882
+  - port: 3883
+    nodePort: 31883
+    name: zookeeper-3883-31883
+  type: NodePort

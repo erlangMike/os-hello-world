@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nfs-client-provisioner
+  labels:
+    app: nfs-client-provisioner
+  namespace: nifi-namespace
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: nfs-client-provisioner
+      labels:
+        app: nfs-client-provisioner
+    spec:
+      serviceAccountName: nfs-provisioner
+      containers:
+      - name: nfs-client-provisioner
+        image: registry.cn-hangzhou.aliyuncs.com/open-ali/nfs-client-provisioner
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - name: nfs-client-root
+          mountPath: /persistentvolumes
+        env:
+        - name: PROVISIONER_NAME
+          value: crrc.com/nfs
+        - name: NFS_SERVER
+          value: 192.168.1.58
+        - name: NFS_PATH
+          value: /usr/local/soft/datas
+      restartPolicy: Always
+
+      volumes:
+      - name: nfs-client-root
+        nfs:
+          server: 192.168.1.58
+          path: /usr/local/soft/datas
+  selector:
+    matchLabels:
+      app: nfs-client-provisioner

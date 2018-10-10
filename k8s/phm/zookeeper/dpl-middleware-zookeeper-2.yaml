@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dpl-plt-zookeeper-2
+  labels:
+    app: dpl-plt-zookeeper-2
+    version: v1
+    env: base
+    arc: middleware
+  annotations:
+    uid: "jn"
+    buildinfo: "平台集成环境-zookeeper"
+    contract: "dpl联系人 姜楠：15542323694"
+    realease: "版本为基础版本，不可乱动"
+  namespace: platform
+spec:
+  replicas: 1
+  template:
+    metadata:
+      name: dpl-plt-zookeeper-2
+      labels:
+        app: dpl-plt-zookeeper-2
+    spec:
+      containers:
+      - name: dpl-plt-zookeeper-2
+        image: bitnami/zookeeper:latest
+        imagePullPolicy: IfNotPresent
+        env:
+        - name: ZOO_ENABLE_AUTH
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_ENABLE_AUTH.2
+        - name: ZOO_SERVER_USERS
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_SERVER_USERS.2
+        - name: ZOO_SERVER_PASSWORDS
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_SERVER_PASSWORDS.2
+        - name: ZOO_SERVER_ID
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_SERVER_ID.2
+        - name: ZOO_PORT_NUMBER
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_PORT_NUMBER.2
+        - name: ZOO_SERVERS
+          valueFrom:
+            configMapKeyRef:
+              name: cf-platform-zookeeper
+              key: ZOO_SERVERS.2
+      restartPolicy: Always
+  selector:
+    matchLabels:
+      app: dpl-plt-zookeeper-2

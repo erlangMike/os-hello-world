@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: cf-platform-zookeeper
+  namespace: platform
+  annotations:
+    uid: "jn"
+    buildinfo: "zookeeper配置节点使用"
+data:
+  ZOO_SERVER_ID.1: "1"
+  ZOO_PORT_NUMBER.1: "2181"
+  ZOO_SERVERS.1: "0.0.0.0:2887:3887,localhost:2888:3888,localhost:2889:3889"
+  ZOO_ENABLE_AUTH.1: "yes"
+  ZOO_SERVER_USERS.1: "plt-user"
+  ZOO_SERVER_PASSWORDS.1: "plt-pass"
+  ALLOW_ANONYMOUS_LOGIN.1: "no"
+
+  ZOO_SERVER_ID.2: "2"
+  ZOO_PORT_NUMBER.2: "2182"
+  ZOO_SERVERS.2: "localhost:2887:3887,0.0.0.0:2888:3888,localhost:2889:3889"
+  ZOO_ENABLE_AUTH.2: "yes"
+  ZOO_SERVER_USERS.2: "plt-user"
+  ZOO_SERVER_PASSWORDS.2: "plt-pass"
+  ALLOW_ANONYMOUS_LOGIN.2: "no"
+
+  ZOO_SERVER_ID.3: "3"
+  ZOO_PORT_NUMBER.3: "2183"
+  ZOO_SERVERS.3: "localhost:28887:3887,localhost:2888:3888,0.0.0.0:2889:3889"
+  ZOO_ENABLE_AUTH.3: "yes"
+  ZOO_SERVER_USERS.3: "plt-user"
+  ZOO_SERVER_PASSWORDS.3: "plt-pass"
+  ALLOW_ANONYMOUS_LOGIN.3: "no"

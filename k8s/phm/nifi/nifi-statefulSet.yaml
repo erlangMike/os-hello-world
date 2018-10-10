@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nifi
+  namespace: nifi-namespace
+spec:
+  selector:
+    matchLabels:
+      app: nifi
+  serviceName: nifi-headless
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nifi
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: nifi
+        imagePullPolicy: Always
+        image: apache/nifi:latest
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "0.5"
+        ports:
+        - containerPort: 8080
+          name: web
+        env:
+        - name : NIFI_WEB_HTTP_PORT
+          value: "8080"
+        volumeMounts:
+        - name: nifidir
+          mountPath: /opt/nifi/nifi-1.7.1/database_repository
+          subPath: database_repository
+#        - name: nifidir
+#          mountPath: /opt/nifi/nifi-1.7.1/content_repository
+#          subPath: content_repository
+
+  volumeClaimTemplates:
+  - metadata:
+      name: nifidir
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi

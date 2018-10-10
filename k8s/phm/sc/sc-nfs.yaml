@@ -1,0 +1,6 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  namespace: nifi-namespace
+  name: managed-nfs-storage
+provisioner: crrc.com/nfs

@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: zk
+  namespace: nifi-namespace
+spec:
+  selector:
+    matchLabels:
+      app: zk
+  serviceName: zk-headless
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: zk
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+#      affinity:
+#        podAffinity:
+#          requiredDuringSchedulingIgnoredDuringExecution:
+#          - labelSelector:
+#              matchExpressions:
+#              - key: "app"
+#                operator: In
+#                values:
+#                - zk-headless
+#            topologyKey: "kubernetes.io/hostname"
+      containers:
+        - name: k8szk
+          imagePullPolicy: Always
+          image: ibmcom/k8szk:v2
+          resources:
+            requests:
+              memory: "2Gi"
+              cpu: "0.5"
+          ports:
+          - containerPort: 2181
+            name: client
+          - containerPort: 2888
+            name: server
+          - containerPort: 3888
+            name: leader-election
+          env:
+          - name : ZK_REPLICAS
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: ensemble
+          - name : ZK_HEAP_SIZE
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: jvm.heap
+          - name : ZK_TICK_TIME
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: tick
+          - name : ZK_INIT_LIMIT
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: init
+          - name : ZK_SYNC_LIMIT
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: tick
+          - name : ZK_MAX_CLIENT_CNXNS
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: client.cnxns
+          - name: ZK_SNAP_RETAIN_COUNT
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: snap.retain
+          - name: ZK_PURGE_INTERVAL
+            valueFrom:
+              configMapKeyRef:
+                name: zk-config
+                key: purge.interval
+          - name: ZK_CLIENT_PORT
+            value: "2181"
+          - name: ZK_SERVER_PORT
+            value: "2888"
+          - name: ZK_ELECTION_PORT
+            value: "3888"
+          command:
+          - sh
+          - -c
+          - zkGenConfig.sh && zkServer.sh start-foreground
+#          readinessProbe:
+#            exec:
+#              command:
+#              - "zkOk.sh"
+#            initialDelaySeconds: 15
+#            timeoutSeconds: 5
+#          livenessProbe:
+#            exec:
+#              command:
+#              - "zkOk.sh"
+#            initialDelaySeconds: 15
+#            timeoutSeconds: 5
+          volumeMounts:
+          - name: datadir
+            mountPath: /var/lib/zookeeper
+
+  volumeClaimTemplates:
+  - metadata:
+      name: datadir
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 20Gi

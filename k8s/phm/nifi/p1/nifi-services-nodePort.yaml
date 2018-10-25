@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nifi-services
+  labels:
+    app: nifi-services
+  namespace: nifi-namespace
+spec:
+  selector:
+    app: nifi
+  ports:
+  - port: 30000
+    targetPort: 8080
+    nodePort: 30000
+    name: web
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 10800
+  type: NodePort

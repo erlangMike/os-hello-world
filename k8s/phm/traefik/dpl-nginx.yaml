@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik-nginx
+  labels:
+    app: traefik-nginx
+  namespace: plt-namespace
+spec:
+  replicas: 2
+  template:
+    metadata:
+      name: traefik-nginx
+      labels:
+        app: traefik-nginx
+    spec:
+      containers:
+      - name: traefik-nginx
+        image: nginx
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 80
+            name: web
+        volumeMounts:
+          - mountPath: /usr/share/nginx/html
+            name: html
+      restartPolicy: Always
+      volumes:
+        - name: html
+          hostPath:
+            path: /usr/local/soft/html
+  selector:
+    matchLabels:
+      app: traefik-nginx

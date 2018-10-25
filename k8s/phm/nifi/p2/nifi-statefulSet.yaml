@@ -3,12 +3,14 @@ kind: StatefulSet
 metadata:
   name: nifi
   namespace: nifi-namespace
+  annotations:
+    kubernetes.io/ingress.class: traefik
 spec:
   selector:
     matchLabels:
       app: nifi
   serviceName: nifi-headless
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -27,6 +29,7 @@ spec:
         ports:
         - containerPort: 8080
           name: web
+#          hostPort: 8989
         env:
         - name : NIFI_WEB_HTTP_PORT
           value: "8080"
@@ -34,9 +37,18 @@ spec:
         - name: nifidir
           mountPath: /opt/nifi/nifi-1.7.1/database_repository
           subPath: database_repository
-#        - name: nifidir
-#          mountPath: /opt/nifi/nifi-1.7.1/content_repository
-#          subPath: content_repository
+        - name: nifidir
+          mountPath: /opt/nifi/nifi-1.7.1/content_repository
+          subPath: content_repository
+        - name: nifidir
+          mountPath: /opt/nifi/nifi-1.7.1/flowfile_repository
+          subPath: flowfile_repository
+        - name: nifidir
+          mountPath: /opt/nifi/nifi-1.7.1/provenance_repository
+          subPath: provenance_repository
+        - name: nifidir
+          mountPath: /opt/nifi/nifi-1.7.1/state
+          subPath: state
 
   volumeClaimTemplates:
   - metadata:

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nifi-s-nginxproxy-line1
+  labels:
+    app: nifi-s-nginxproxy-line1
+  namespace: nifi-namespace
+spec:
+  selector:
+    app: nginx-ingress-controller
+  ports:
+  - port: 30001
+    targetPort: 30001
+    nodePort: 30001
+    name: line1
+  - port: 30002
+    targetPort: 30002
+    nodePort: 30002
+    name: linetest
+  type: NodePort

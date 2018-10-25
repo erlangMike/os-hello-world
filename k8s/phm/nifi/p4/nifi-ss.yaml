@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nifi
+  namespace: nifi-namespace
+spec:
+  selector:
+    matchLabels:
+      app: nifi
+  serviceName: nifi-headless
+  replicas: 4
+  template:
+    metadata:
+      labels:
+        app: nifi
+      annotations:
+        pod.alpha.kubernetes.io/initialized: "true"
+    spec:
+      containers:
+      - name: nifi
+        imagePullPolicy: IfNotPresent
+        image: plt/nifi-cluster:v0.0.1
+        resources:
+          requests:
+            memory: "2Gi"
+            cpu: "0.2"
+        ports:
+        - containerPort: 8080
+          name: web
+        env:
+        - name : WEB_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: WEB_PORT
+              name: nifi-p4
+        - name : MIN_MEM
+          valueFrom:
+            configMapKeyRef:
+              key: MIN_MEM
+              name: nifi-p4
+        - name : MAX_MEM
+          valueFrom:
+            configMapKeyRef:
+              key: MAX_MEM
+              name: nifi-p4
+        - name : IS_CLUSTER
+          valueFrom:
+            configMapKeyRef:
+              key: IS_CLUSTER
+              name: nifi-p4
+        - name : ZK_CONNECTION_STR
+          valueFrom:
+            configMapKeyRef:
+              key: ZK_CONNECTION_STR
+              name: nifi-p4
+        - name : CLUSTER_NODE_PORT
+          valueFrom:
+            configMapKeyRef:
+              key: CLUSTER_NODE_PORT
+              name: nifi-p4
+        volumeMounts:
+        - name: nifissdir
+          mountPath: /opt/data
+        - name: logback
+          mountPath: /opt/nifi-1.7.1/conf/logback.xml
+          subPath: logback.xml
+      volumes:
+        - name: logback
+          configMap:
+            name: nifi-p1
+            items:
+            - key: logback.xml
+              path: logback.xml
+  volumeClaimTemplates:
+  - metadata:
+      name: nifissdir
+      annotations:
+        volume.beta.kubernetes.io/storage-class: "managed-nfs-storage"
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 2Gi

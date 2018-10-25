@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress-demo
+  namespace: plt-namespace
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /index.html
+            backend:
+              serviceName: traefik-nginx-service
+              servicePort: web
+          - path: /crrc
+            backend:
+              serviceName: traefik-nginx-service
+              servicePort: web

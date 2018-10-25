@@ -9,10 +9,7 @@ spec:
   selector:
     app: nifi
   ports:
-  - port: 8080
-    nodePort: 30000
+  - port: 30000
+    targetPort: 8080
     name: web
-  - port: 8888
-    nodePort: 30001
-    name: nifi-tcp-demo
-  type: NodePort
+  type: ClusterIP

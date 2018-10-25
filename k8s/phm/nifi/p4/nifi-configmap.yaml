@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nifi-p4
+  annotations:
+    uid: "jn"
+    buildinfo: "nifi p4类集群设置"
+  namespace: nifi-namespace
+data:
+  WEB_PORT: "8080"
+  IS_CLUSTER: "true"
+  CLUSTER_NODE_PORT: "8089"
+  ZK_CONNECTION_STR: "192.168.1.101:2181,192.168.1.206:2181,192.168.1.58:2181"
+  MIN_MEM: "1024m"
+  MAX_MEM: "2048m"

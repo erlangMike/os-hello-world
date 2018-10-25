@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress-nifi-cloud-v0.0.1
+  namespace: nifi-namespace
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    traefik.ingress.kubernetes.io/affinity: "true"
+    traefik.ingress.kubernetes.io/preserve-host: "true"
+    ingress.kubernetes.io/auth-trust-headers: "true"
+    ingress.kubernetes.io/is-development: "true"
+    ingress.kubernetes.io/custom-request-headers: |
+      Host:114.116.92.207
+#      X-ProxyContextPath:
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /nifi
+            backend:
+              serviceName: nifi-headless
+              servicePort: web
+          - path: /nifi-api
+            backend:
+              serviceName: nifi-headless
+              servicePort: web
+          - path: /nifi-content-viewer
+            backend:
+              serviceName: nifi-headless
+              servicePort: web
+#          - path: /nifi-api
+#            backend:
+#              serviceName: nifi-services
+#              servicePort: web

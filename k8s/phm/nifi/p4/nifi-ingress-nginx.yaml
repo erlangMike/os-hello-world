@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress-nifi-cloud-v0.0.1
+  namespace: nifi-namespace
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /nifi
+            backend:
+              serviceName: nifi-headless
+              servicePort: web
+          - path: /nifi-api
+            backend:
+              serviceName: nifi-headless
+              servicePort: web
+          - path: /nifi-content-viewer
+            backend:
+              serviceName: nifi-headless
+              servicePort: web

@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nifi-s-line1
+  labels:
+    app: nifi-s-line1
+  namespace: nifi-namespace
+spec:
+  selector:
+    app: nifi
+  ports:
+  - port: 30001
+    targetPort: 30001
+    nodePort: 30001
+    name: lstcp
+  - port: 30002
+    targetPort: 30002
+    nodePort: 30002
+    name: mptcp
+  type: NodePort
